@@ -5,19 +5,10 @@ package Juego;
 // Se iniciaron comentarios de drag and drop el 25/4/2013.
 // Se inició con al día siguiente con recopilación y retroalimentación para llevar a cabo el proyecto.
 
-import Piezas.Huargo;
-import Piezas.Hobbit;
-import Piezas.Orco;
-import Piezas.Eldarion;
-import Piezas.Aragorn;
-import Piezas.Arwen;
-import Piezas.Saruman;
-import Piezas.Frodo;
-import Piezas.Gandalf;
-import Piezas.Nigromante;
-import Piezas.Espada;
-import Piezas.Anillo;
-import Piezas.Gollum;
+import Piezas.Caballo_1;
+import Piezas.Caballo_2;
+
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -31,7 +22,7 @@ import javax.swing.JPanel;
 /**
  * Esta clase es la principal del Tablero, extiende de JPanel
  * */
-public class Tablero extends JPanel {
+public class Board_Horses extends JPanel {
 	/*
 	 * Se crea un entero global con el cual se trabajará la parametrización el tablero.
 	 */
@@ -45,7 +36,7 @@ public class Tablero extends JPanel {
 	/*
 	 * Es el array principal que diseña el tablero, es un conjunto de cuadrosPiezas. 
 	 */
-	static CuadroPieza tablero[][];
+	static CuadroPieza board_horses[][];
 	/*
 	 * Estoy arreglos sirven para realizar el terremoto.
 	 */
@@ -56,19 +47,19 @@ public class Tablero extends JPanel {
 	/*
 	 * Especifica el color de los cuadros del tablero "negros"
 	 */
-	private static Color negro = new Color(0,0,0);
+	private static Color Cafe_Oscuro = new Color(139,69,19);
 	/*
 	 * Especifica el color de los cuadros del tablero "blancos"
 	 */
-	private static     Color blanco = new Color(255, 255, 255, 255);
+	private static     Color Cafe_Claro = new Color(222,184,135);
 	/*
 	 * Cuando un cuadro es resaltado, y es blanco se usará este color para diferenciarlo de los demás.
 	 */
-	private static    Color blancoResaltado = new Color(80, 240, 0, 255);
+	private static    Color ClaroResaltado = new Color(80, 240, 0, 255);
 	/*
 	 * Cuando un cuadro es resaltado y es negro, se usará este color para diferenciarlo de los demás.
 	 */
-	private static Color negroResaltado = new Color(87, 167, 26, 142);
+	private static Color OscuroResaltado = new Color(87, 167, 26, 142);
 	/*
 	 * Cuando selecciono alguna pieza el cuadro se colorea de este color.
 	 */
@@ -108,7 +99,7 @@ public class Tablero extends JPanel {
 	/*
 	 * Constructor de Tablero, en el se inicializa, se llena con las fichas y se pinta el tablero de juego.
 	 */
-	public Tablero() {
+	public Board_Horses() {
 		super();
 		llenarCuadrosTablero();
 		ordenarTablero();
@@ -122,14 +113,15 @@ public class Tablero extends JPanel {
 	// Modificaciones el 4/4/13
 	private void llenarCuadrosTablero() {
 		tmp = new JLabel();
+		tmp.setForeground(new Color(0, 0, 0));
 		tmp.setBounds(-131, -131, 87, 87);
 		add(tmp);
-		tablero = new CuadroPieza[parametro][parametro];
+		board_horses = new CuadroPieza[parametro][parametro];
 		setLayout(null);
 		for (int x = 0; x < parametro; x++) {
 			for (int y = 0; y < parametro; y++) {
-				tablero[x][y] = new CuadroPieza(x, y);
-				add(tablero[x][y]);// Para agregar los elementos por iteración.
+				board_horses[x][y] = new CuadroPieza(x, y);
+				add(board_horses[x][y]);// Para agregar los elementos por iteración.
 			}
 		}
 		rePintarTablero();
@@ -143,7 +135,7 @@ public class Tablero extends JPanel {
 	public void init() {//lo que es evento con el Mouse
 		for (int x = 0; x < parametro; x++) {
 			for (int y = 0; y < parametro; y++) {
-				tablero[x][y].addMouseListener(new java.awt.event.MouseAdapter() {
+				board_horses[x][y].addMouseListener(new java.awt.event.MouseAdapter() {
 
 					public void mousePressed(java.awt.event.MouseEvent evt) {
 						seleccionarPieza(evt);//cuando mouse se levantado o presionado haga esto
@@ -153,7 +145,7 @@ public class Tablero extends JPanel {
 						dejarPieza(evt);
 					}
 				});
-				tablero[x][y].addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+				board_horses[x][y].addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
 
 					public void mouseDragged(java.awt.event.MouseEvent evt) {
 						/*
@@ -186,10 +178,10 @@ public class Tablero extends JPanel {
 				 */
 				for (int x = 0; x < parametro; x++) {
 					for (int y = 0; y < parametro; y++) {
-						tablero[x][y].opacarPieza();//Si hay piezas seleccionadas, las opaco.
+						board_horses[x][y].opacarPieza();//Si hay piezas seleccionadas, las opaco.
 						if (isSeleccionarAlternativas()) {//Resalto los posibles movimientos.
-							if (cuadroSeleccionado.getPieza().validarMovimiento(tablero[x][y], this)) {
-								tablero[x][y].resaltarPieza(tablero[x][y].getPieza() != null ? getAlerta() : null);
+							if (cuadroSeleccionado.getPieza().validarMovimiento(board_horses[x][y], this)) {
+								board_horses[x][y].resaltarPieza(board_horses[x][y].getPieza() != null ? getAlerta() : null);
 							}
 						}
 					}
@@ -280,16 +272,16 @@ public class Tablero extends JPanel {
 
 				for (int x = 0; x < parametro; x++) {
 					for (int y = 0; y < parametro; y++) {
-						tablero[x][y].opacarPieza();//Regreso todos los cuadros a su estado inicial, para que no esten resaltados.
+						board_horses[x][y].opacarPieza();//Regreso todos los cuadros a su estado inicial, para que no esten resaltados.
 					}
 				}
 				if (getTurno() == -1){
-					//JuegoPrincipal.a_h_turno.setText("Comunidad");
+					JuegoPrincipal.a_h_turno.setText("Comunidad");
 
 					CronometroThreadAlianza.segundos = -1;
 				}
 				else{
-					//JuegoPrincipal.a_h_turno.setText("Mordor");
+					JuegoPrincipal.a_h_turno.setText("Mordor");
 					CronometroThreadAlianza.segundos = -1;
 				}
 
@@ -300,195 +292,44 @@ public class Tablero extends JPanel {
 		}
 	}
 
-	//@autor Daniel Chaves.
-	// 10/4/2013.
-	// Modificaciones el 12/4/13 a cargo de Deiby Diaz por discusión de soluciones.
+
 	/**
 	 * Este método ordena todo el tablero, quiere decir que pone las piezas en su sitio.(Resetea el juego).
 	 */
 	public void ordenarTablero() {    	
-		Posiciones_Aleatorias P_senuelo = new Posiciones_Aleatorias(0,7); // Se crea una instancia de números aleatorios para la inserción de los señuelos.
-		int o = 0, p = 0, q=0, r = 0, s = 0, t = 0, u = 0, v = 0 ;
+		Posiciones_Aleatorias Pos_Caballos = new Posiciones_Aleatorias(0,(parametro-1)); // Se crea una instancia de números aleatorios para la inserción de los señuelos.
+		int Fila_Caballo_1 = 0, Fila_Caballo_2 = 0, Columna_Caballo_1 = 0, Columna_Caballo_2 = 0;
 
 		setTurno(1); // Se empieza con el turno de Comunidad.
 
-		//Limpiar el tablero según el parámetro correspondiente.
+		//Limpiar el tablero según el parámetro, el cual es el tamaño de la dimensión del tablero, correspondiente.
 		for (int x = 0; x < parametro; x++) {
 			for (int y = 0; y < parametro; y++) {
-				tablero[x][y].setPieza(null);
+				board_horses[x][y].setPieza(null);
 			}
 		}
 
 
-		// Generar los aleatorios
-		o = P_senuelo.generar();
-		p = P_senuelo.generar();
-		q = P_senuelo.generar();
-		r = P_senuelo.generar();
-		s = P_senuelo.generar();
-		t = P_senuelo.generar();
-		u = P_senuelo.generar();
-		v = P_senuelo.generar();
+		// Generar los aleatorios de las filas y columnas para ambos caballos 
+		Fila_Caballo_1 = Pos_Caballos.generar_numero_aleatorio();
+		Fila_Caballo_2 = Pos_Caballos.generar_numero_aleatorio();
+		Columna_Caballo_1 = Pos_Caballos.generar_numero_aleatorio();
+		Columna_Caballo_2 = Pos_Caballos.generar_numero_aleatorio();
 
-		// Se le asigan las variables a los señuelos.
-		posicion_Nigromante = o;
-		posicion_Espada = p;
-		posicion_Anillo = q;
 
-		int color = -1; // Se define el bando al cual va a ser instanciado.
 		/**
-		 * Mediante estos for y bloques de decisión agregamos las piezas al tablero para los personajes de Mordor.
+		 * Mediante este for y colocamos ambos caballo en el tablero de forma aleatoria.
 		 */
 		for (int i = 0; i < 1; i++) {	
-			tablero[o][0].setPieza(new Nigromante(color));
-			tablero[p][0].setPieza(new Espada(color));
-			tablero[q][0].setPieza(new Anillo(color));
-			tablero[r][0].setPieza(new Saruman(color));
-			tablero[s][0].setPieza(new Huargo(color));
-			tablero[t][0].setPieza(new Gollum(color));
-			tablero[u][0].setPieza(new Orco(color));
-			tablero[v][0].setPieza(new Huargo(color));
-
-			for (int y=1; y<=2; y++){
-				for (int j = 0; j < parametro; j++) { // Se colocan orcos según lo permita el tablero.
-					tablero[j][y].setPieza(new Orco(color));
-				}
-			}
-
-			if (parametro  == 9){
-				tablero[8][0].setPieza(new Orco(color));
-			}
-			else if (parametro  == 10){
-				tablero[8][0].setPieza(new Orco(color));
-				tablero[9][0].setPieza(new Orco(color));
-			}
-			else if (parametro  == 11){
-				tablero[8][0].setPieza(new Orco(color));
-				tablero[9][0].setPieza(new Orco(color));
-				tablero[10][0].setPieza(new Orco(color));
-			}
-			else if (parametro  == 12){
-				tablero[8][0].setPieza(new Orco(color));
-				tablero[9][0].setPieza(new Orco(color));
-				tablero[10][0].setPieza(new Orco(color));
-				tablero[11][0].setPieza(new Orco(color));
-			}
-
+			board_horses[Fila_Caballo_1][Columna_Caballo_1].setPieza(new Caballo_1(0));//asignación aleatoria del caballo 1 en el tablero
+			board_horses[Fila_Caballo_2][Columna_Caballo_2].setPieza(new Caballo_2(0));//asignación aleatoria del caballo 2 en el tablero
 		}
 
-		int color2 = 1;// Se define el bando al cual va a ser instanciado.
-		/**
-		 * Mediante estos for y bloques de decisión agregamos las piezas al tablero para los personajes de la Comunidad.
-		 */
-		for (int i = 1; i <= 1; i++) {
-			tablero[0][i* parametro-1].setPieza(new Hobbit(color2));
-			tablero[1][i * parametro-1].setPieza(new Hobbit(color2));
-			tablero[2][i * parametro-1].setPieza(new Arwen(color2));
-			tablero[3][i * parametro-1].setPieza(new Gandalf(color2));
-			tablero[4][i * parametro-1].setPieza(new Frodo(color2));
-			tablero[5][i * parametro-1].setPieza(new Aragorn(color2));
-			tablero[6][i * parametro-1].setPieza(new Hobbit(color2));
-			tablero[7][i* parametro-1].setPieza(new Hobbit(color2));
-			for (int j = 0; j < parametro; j++) { // Se colocan Hobbits según lo permita el tablero.
-				tablero[j][parametro-2].setPieza(new Hobbit(color2));
-			}
-		}
-		if (parametro  == 9){
-			tablero[8][parametro-1].setPieza(new Hobbit(color2));
-		}
-		else if (parametro  == 10){
-			tablero[8][parametro-1].setPieza(new Hobbit(color2));
-			tablero[9][parametro-1].setPieza(new Hobbit(color2));
-		}
-		else if (parametro  == 11){
-			tablero[8][parametro-1].setPieza(new Hobbit(color2));
-			tablero[9][parametro-1].setPieza(new Hobbit(color2));
-			tablero[10][parametro-1].setPieza(new Hobbit(color2));
-		}
-		else if (parametro  == 12){
-			tablero[8][parametro-1].setPieza(new Hobbit(color2));
-			tablero[9][parametro-1].setPieza(new Hobbit(color2));
-			tablero[10][parametro-1].setPieza(new Hobbit(color2));
-			tablero[11][parametro-1].setPieza(new Hobbit(color2));
-		}
 
 		rePintarTablero(); // Se llama al método repintar tablero que básicamente como su nombre lo indica reposiciona en el tablero las imagenes, su ícono.
 	}
 
-	//@autor Destruye_Senuelos() y ubica_Senuelos() le pertenecen a Oswaldo Dávila y Daniel Chaves Coto por trabajo en equipo.
-	// 9/4/2013.
-	/**
-	 * Este método pretende destruir los señuelos para así a la hora que sean atacados
-	 * facilitar su posicionamiento aleatorio en el tablero.
-	 */
-	public static void destruye_Senuelos(){
-		tablero[posicion_Nigromante][0].setPieza(null);
-		tablero[posicion_Anillo][0].setPieza(null);
-		tablero[posicion_Espada][0].setPieza(null);
-	}
 
-
-	/**
-	 * Este método pretende incorporar los señuelos destruidos por destruye_Señuelos al tablero.
-	 * Precondiciones: Al recibir un string del nombre del señuelo tiene que colocar esa ficha en un número aleatorio de las casillas de la fila superior.
-	 * Entradas: Recibe el string de la pieza a colocar.
-	 * Salidas: Se coloca la pieza en un número aleatorio correspondiente a una casilla vacía de la fila superior de la mina.
-	 * Postcondiciones: La ficha tiene que ser colocada de manera correcta.
-	 */
-	public static void ubica_Senuelos(String pieza_Nueva){
-		Posiciones_Aleatorias Posiciones_Nuevas = new Posiciones_Aleatorias(0,7);
-		int w = Posiciones_Nuevas.generar();
-		for (int k = 0; k < parametro; k++){
-			if (pieza_Nueva.equals("Nigromante") && tablero[w][0].getPieza() == null){
-				tablero[w][0].setPieza(new Nigromante(-1));
-				posicion_Nigromante = w;
-				break;
-			}
-			else if(pieza_Nueva.equals("Anillo") && tablero[w][0].getPieza() == null){
-				tablero[w][0].setPieza(new Anillo(-1));
-				posicion_Anillo = w;
-				break;
-
-			}
-			else if (pieza_Nueva.equals("Espada") && tablero[w][0].getPieza() == null){
-				tablero[w][0].setPieza(new Espada(-1));
-				posicion_Espada = w;
-				break;
-
-			}
-			else{ // Si la posición está ocupada, no se puede poner la ficha por lo tanto se genera otro número aleatorio.
-				w = Posiciones_Nuevas.generar();
-			}
-		}
-	}
-
-	//@autor Deiby Diaz.
-	// 5/4/2013.
-	/**
-     * Este método pretende ubicar una Gandalf una vez que ha sido eliminado por algún contrincante.
-     * Precondiciones: Gandalf ha muerto.
-     * Postcondiciones: Colocar a Gandalf de manera correcta en la posición de Aragorn.
-     */
-	public static void ubica_Gandalf(){
-		Posiciones_Aleatorias posicion_Gandalf = new Posiciones_Aleatorias(0,7);
-		int posicion_g = posicion_Gandalf.generar();
-		while(true){
-			if (tablero[posicion_g][Aragorn.getPosicion_y()].getPieza() == null){
-				tablero[posicion_g][Aragorn.getPosicion_y()].setPieza(new Gandalf(1));
-				//JuegoPrincipal.v_Gandalf.setText("1");
-				Gandalf.set_Resucitar(false);
-				JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "Gandalf ha resucitado");
-				break;
-			}
-			else{
-				posicion_g = posicion_Gandalf.generar(); // Si la posición está ocupada, no se puede poner la ficha por lo tanto se genera otro número aleatorio.
-			}
-		}
-	}
-
-	//@autor Oswaldo Dávila.
-	// 28/3/2013.
-	// Modificaciones el 2/4/13
 	/**
      * Este método pretende repintar el tablero al inicializar las piezas y tiene otros usos comunes pero destinados al mismo fin, 
      * refrescar el tablero cuando lo necesitemos y movamos piezas.
@@ -499,13 +340,13 @@ public class Tablero extends JPanel {
 		for (int x = 0; x < parametro; x++) {
 			for (int y = 0; y < parametro; y++) {
 				if (x % 2 == 0) {
-					tablero[x][y].setFondo(y % 2 == 1 ? getNegro() : getBlanco());
-					tablero[x][y].setResaltar(y % 2 == 1 ? getNegroResaltado() : getBlancoResaltado());
+					board_horses[x][y].setFondo(y % 2 == 1 ? getOscuro() : getClaro());
+					board_horses[x][y].setResaltar(y % 2 == 1 ? getOscuroResaltado() : getClaroResaltado());
 				} else {
-					tablero[x][y].setFondo(y % 2 == 0 ? getNegro() : getBlanco());
-					tablero[x][y].setResaltar(y % 2 == 0 ? getNegroResaltado() : getBlancoResaltado());
+					board_horses[x][y].setFondo(y % 2 == 0 ? getOscuro() : getClaro());
+					board_horses[x][y].setResaltar(y % 2 == 0 ? getOscuroResaltado() : getClaroResaltado());
 				}
-				tablero[x][y].setBounds(anchoCuadro * (colorArriba == -1 ? x : (7 - x)), altoCuadro * (colorArriba == -1 ? y : (7 - y)), anchoCuadro, altoCuadro);
+				board_horses[x][y].setBounds(anchoCuadro * (colorArriba == -1 ? x : (7 - x)), altoCuadro * (colorArriba == -1 ? y : (7 - y)), anchoCuadro, altoCuadro);
 			}
 		}
 	}
@@ -521,7 +362,7 @@ public class Tablero extends JPanel {
      * Este método pretende hacer una instancia del tablero actual de juego.
      */
 	public CuadroPieza[][] getTablero() {
-		return tablero;
+		return board_horses;
 	}
 	
 	/**
@@ -558,58 +399,58 @@ public class Tablero extends JPanel {
 	/**
 	 * Retorna el Color negro para el tablero.
 	 */
-	 public static Color getNegro() {
-		 return negro;
+	 public static Color getOscuro() {
+		 return Cafe_Oscuro;
 	 }
 
 	 /**
 	  * Setea el Color negro para el tablero.
 	  */
-	 public void setNegro(Color negro) {
-		 this.negro = negro;
+	 public void setOscuro(Color CafeOscuro) {
+		 this.Cafe_Oscuro = CafeOscuro;
 	 }
 
 	 /**
 	* Retorna el Color blanco para el tablero.
 	* */
 	 
-	 public static Color getBlanco() {
-		 return blanco;
+	 public static Color getClaro() {
+		 return Cafe_Claro;
 	 }
 
 	 /**
 	  * Setea el Color negro para el tablero.
 	  */
-	 public void setBlanco(Color blanco) {
-		 this.blanco = blanco;
+	 public void setClaro(Color CafeClaro) {
+		 this.Cafe_Claro = CafeClaro;
 	 }
 
 	 /**
 	  * Retorna el Color para la casilla blanca cuando esta resaltada en el tablero.
 	  */
-	 public static Color getBlancoResaltado() {
-		 return blancoResaltado;
+	 public static Color getClaroResaltado() {
+		 return ClaroResaltado;
 	 }
 
 	 /**
 	  * Setea el Color para la casilla blanca cuando esta resaltada en el tablero.
 	  */
-	 public void setBlancoResaltado(Color blancoResaltado) {
-		 this.blancoResaltado = blancoResaltado;
+	 public void setClaroResaltado(Color Cafe_Claro_Resaltado) {
+		 this.ClaroResaltado = Cafe_Claro_Resaltado;
 	 }
 
 	 /**
 	  * Retorna el Color para la casilla negro cuando esta resaltada en el tablero.
 	  */
-	 public static Color getNegroResaltado() {
-		 return negroResaltado;
+	 public static Color getOscuroResaltado() {
+		 return OscuroResaltado;
 	 }
 
 	 /**
 	  * Setea el Color para la casilla blanca cuando esta resaltada en el tablero.
 	  */
-	 public void setNegroResaltado(Color negroResaltado) {
-		 this.negroResaltado = negroResaltado;
+	 public void setOscuroResaltado(Color Cafe_Oscuro_Resaltado) {
+		 this.OscuroResaltado = Cafe_Oscuro_Resaltado;
 	 }
 
 	 /**
@@ -639,55 +480,8 @@ public class Tablero extends JPanel {
 	 public void setAlerta(Color Alerta) {
 		 this.Alerta = Alerta;
 	 }
-	//@autor Daniel Chaves Coto.
-	// 3/4/2013.
-	
 
-	 /**
-	  * Precondiciones: Saruman debe atacar a alguna pieza.
-	  * Entradas: La pieza a la cual Saruman ataca.
-	  * Salidas: Mensaje acerca del movimineto de la pieza(se lleva a cabo en la función MoverPieza de la clase Pieza), al extremo inferior de la mina.
-	  * Postcondiciones: La ficha es movida al extremo mas bajo de la mina donde no choque con una posición contraria o amiga, 
-	  * ya que sino ese será su extremo más bajo. (Veamoslo del modo siguiente: 1. Si es enemiga está rodeada. 2. Si es amiga entonces encuentra refuerzos).
-	  */
-	 public static void P_saruman(Pieza piece){
-		 for (int j = piece.getCuadroPieza().getInY(); 0<j && j<parametro-1; j++) {
-			 if (tablero[piece.getCuadroPieza().getInX()][j+1].getPieza() == null){
-				 tablero[piece.getCuadroPieza().getInX()][j+1].setPieza(piece.getCuadroPieza().getPieza());
-				 tablero[piece.getCuadroPieza().getInX()][j].setPieza(null);
-				 P_saruman(tablero[piece.getCuadroPieza().getInX()][j+1].getPieza()); // Se llama recursiva al no cumplir la condición de stop establecida.
-				 break;
-			 }
-			 else{
-				 break;
-			 }
-		 }
-	 }
-	//@autor Daniel Chaves Coto.
-	// 11/4/2013.
 
-	 /**
-	  * 
-	  * Precondiciones: Se debe haber validado la procreación de Eldarion por parte de sus padres, además de tener una posición y válida.
-	  * Entradas: Entero de la fila en la cual se procreará a Eldarion.
-	  * Salidas: Posicionamiento de Eldarion.
-	  * Postcondiciones: Si la fila esta llena tendremos un error por validaciones, pero en caso contrario, eldarion se mostrará en el tablero de juego.
-	  */
-	 public static void ubica_Eldarion(int y){
-		 Posiciones_Aleatorias posicion_eldarion = new Posiciones_Aleatorias(0,parametro-1);
-		 int aleatorio = posicion_eldarion.generar();
-		 while (true){
-			 if (tablero[aleatorio][y].getPieza() == null){
-
-				 tablero[aleatorio][y].setPieza(new Eldarion(1));
-				 break;
-			 }
-			 else{
-
-				 aleatorio = posicion_eldarion.generar(); // Si la posición x evaluada esta llena, se debe de generar otro número hasta que salga una posición válida.
-			 }
-		 }
-	 }  
 	//@autor Oswaldo Dávila.
 	// 5/4/2013.
 	// Modificaciones el 12/4/13
@@ -699,8 +493,8 @@ public class Tablero extends JPanel {
 	  */
 	 public static void ocurreTerremoto(){
 		 Posiciones_Aleatorias ocurre = new Posiciones_Aleatorias(0,1); // Genera aleatorios con un 50% de probabilidad de que haya un terremoto.
-		 if(ocurre.generar() == 1){
-			 JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "Al parecer Minas Tirith esta sufriendo un terremoto");	 // Informe de terremoto.
+		 if(ocurre.generar_numero_aleatorio() == 1){
+			 JOptionPane.showMessageDialog(JuegoPrincipal.table, "Al parecer Minas Tirith esta sufriendo un terremoto");	 // Informe de terremoto.
 			 Terremoto(0); //Ejecuto el terremoto.
 		 }
 	 }
@@ -710,22 +504,22 @@ public class Tablero extends JPanel {
 			 //Se generan números aleatorios.
 			 Posiciones_Aleatorias pieza = new Posiciones_Aleatorias(0, parametro-1);
 			 Posiciones_Aleatorias nula = new Posiciones_Aleatorias(0, parametro-1);
-			 int posicion_pieza = pieza.generar();
-			 int posicion_nula = nula.generar();
+			 int posicion_pieza = pieza.generar_numero_aleatorio();
+			 int posicion_nula = nula.generar_numero_aleatorio();
 			 //Se insertan los parámetros en la pila.
 			 for(int d = 0; d < parametro-1; d++){
-				 if (tablero[d][posicion_y].getPieza() != null){
-					 terremoto.push(tablero[d][posicion_y].getPieza());
-					 tablero[d][posicion_y].setPieza(null);
+				 if (board_horses[d][posicion_y].getPieza() != null){
+					 terremoto.push(board_horses[d][posicion_y].getPieza());
+					 board_horses[d][posicion_y].setPieza(null);
 				 }
 			 }
 			 while(!terremoto.isEmpty()){ // Si la pila no es vacía.
 				 if (posicion_pieza != -1){
-					 if (tablero[posicion_pieza][posicion_y].getPieza() == null){
-						 tablero[posicion_pieza][posicion_y].setPieza(terremoto.pop());
+					 if (board_horses[posicion_pieza][posicion_y].getPieza() == null){
+						 board_horses[posicion_pieza][posicion_y].setPieza(terremoto.pop());
 					 }
 					 else{
-						 posicion_pieza = pieza.generar(); //Genera otro número aleatorio si fuera el caso de que la posición este ocupada.
+						 posicion_pieza = pieza.generar_numero_aleatorio(); //Genera otro número aleatorio si fuera el caso de que la posición este ocupada.
 					 }
 				 }
 				 else{
@@ -738,7 +532,7 @@ public class Tablero extends JPanel {
 
 	 }
 
-
+ 
 
 }
 

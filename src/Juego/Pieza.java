@@ -15,20 +15,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import Piezas.Ganador;
-import Piezas.Hobbit;
-import Piezas.Orco;
-import Piezas.Anillo;
-import Piezas.Aragorn;
-import Piezas.Eldarion;
-import Piezas.Espada;
-import Piezas.Arwen;
-import Piezas.Frodo;
-import Piezas.Gandalf;
-import Piezas.Gollum;
-import Piezas.Saruman;
-import Piezas.Nigromante;
-import Piezas.Huargo;
+import Piezas.Caballo_1;
+import Piezas.Caballo_2;
+
 /**
  * Esta clase abstracta establecerá¡ las funciones basicas de toda pieza, sera la clase padre, de las demas piezas
  * Se declara abstracta para que no pueda ser instanciada.
@@ -84,7 +73,7 @@ public abstract class Pieza {
 	 * Precondiciones: Todas las piezas debe cumplir este método
 	 * Postcondiciones: Las clases piezas que hereden pueden sobreescribir el método y reutilizarlo a la vez.
 	 */
-	public boolean validarMovimiento(CuadroPieza Destino, Tablero tbl) {
+	public boolean validarMovimiento(CuadroPieza Destino, Board_Horses tbl) {
 		if (Destino.getPieza() != null) {//Si el cuadro destino esta ocupado entonces:
 			if (Destino.getPieza().getColor() == getCuadroPieza().getPieza().getColor()) {
 				//Si la pieza destino tiene el mismo color que la pieza que voy a mover
@@ -106,13 +95,42 @@ public abstract class Pieza {
 	 * Precondiciones:Validar que las clases hijas sbreesccriban dicho método
 	 * Postcondiciones: Realizar la validación correcta de los movimeintos de las piezas
 	 */
-	public boolean MoverPieza(CuadroPieza Destino, Tablero tbl) {
-		return true;
+	public boolean MoverPieza(CuadroPieza Destino, Board_Horses tbl) {
 		/*
 		 * Valido el movimiento, antes de mover, tener en cuenta que en las clases hijas este método debe haber sido sobreescrito
 		 * Por lo que no solo va a validar lo que hay en el método validarMovimiento de Pieza, si no va a usar el metodo sobreescrito en la clase hija
 		 */
 
+		if (validarMovimiento(Destino, tbl)) {
+			
+			
+			/**
+			 * Todo esto es un gran bloque de desición que internamente contiene mas bloques de desición, debido
+			 * a que tiene que tomar en cuenta todas las validaciones de los posibles movimientos entre 
+			 * las fichas de ambos bandos
+			 */
+			
+			
+			/**
+			 * Este bloque de desición valida los movimiento de Aragorn contra: Gollum, Nigromante, Saruman y Gandalf, asi mismo a la vez se encarga de 
+			 * realizar todas las validaciones de las vidas los ataques al Nigromante, la Espada Narsil en fin todos los movimeintos permitidos para Aragon en el juego.
+			 */
+
+			if (Destino.getPieza() != null) {//si hay una pieza en donde se va a mover
+				
+			}
+
+			else{
+
+			}
+
+			getCuadroPieza().setPieza(null);//Le paso al cuadro donde actualmente esta la pieza el valor de null, que quiere decir que ya no tiene pieza
+			Destino.setPieza(this);//Muevo la pieza al cuadro destino
+			setFirstmov(false);//El siguiente movimiento, ya no serÃ­a el primero.
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
@@ -216,49 +234,19 @@ public abstract class Pieza {
 	public static void reiniciar(){
 		Cronometro.stopActionPerformed();
 		CronometroAlianza.stopActionPerformed();
-		int Eleccion =JOptionPane.showConfirmDialog(JuegoPrincipal.tablero1, "¿Desea volver a iniciar la partida?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+		int Eleccion =JOptionPane.showConfirmDialog(JuegoPrincipal.table, "¿Desea volver a iniciar la partida?", "Confirmacion", JOptionPane.YES_NO_OPTION);
 		if (Eleccion == 0){
 			JuegoPrincipal.frame.dispose();
-			JuegoPrincipal.tablero1=new Juego.Tablero(); 
-			//JuegoPrincipal.a_h_turno.setText("Comunidad");
-			Tablero.setTurno(Tablero.getTurno()*-1);
+			JuegoPrincipal.table=new Juego.Board_Horses(); 
+			JuegoPrincipal.a_h_turno.setText("Comunidad");
+			Board_Horses.setTurno(Board_Horses.getTurno()*-1);
 
 			try {
 				//Inicializacion de cronómetro
 				Cronometro.stopActionPerformed();
 				CronometroAlianza.stopActionPerformed();
 				JuegoPrincipal.initialize();//Inicializa contodas las varaibles del juego principal
-				Tablero.setTurno(Tablero.getTurno()*-1);
-				//Validación de la vidas , movimientos y posición de Aragorn y Arwen.
-				Aragorn.vidas="1";
-				Aragorn.movimiento_Diagonal  = true;
-				Aragorn.movimiento_Lateral  = true;
-				Aragorn.movimiento_Adelante = false;
-				Aragorn.posicion_y = 7;
-				Tablero.setProcrear(true);
-				Arwen.Inmortalidad = true;
-				Arwen.movimiento_Caballo = true;
-				Arwen.movimiento_Adelante = false;
-				
-				//Validación del Movimiento de Eldarion
-				Eldarion.movimiento_Adelante = false;
-				Eldarion.movimiento_Eldarion = true;
-				
-				//Movimeinto de Frodo, vidas disponobles
-				Frodo.movimiento_Gollum = false;
-				Frodo.vidas_Disponibles = 3; // Si este atributo es 3, tiene la espada, el mithril y su vida propia
-				Frodo.movimiento_Hobbit = true;
-				
-				//Valida los movimientos de Gandalg en diagonal, lateral, adelante y resucitarlo.
-				Gandalf.movimiento_Saruman = false;
-				Gandalf.movimiento_Diagonal = true;
-				Gandalf.movimiento_Lateral = true;
-				Gandalf.movimiento_Adelante = true;
-				Gandalf.resucitar = true;
-				
-				//Valida los movientosd e Huargo en forma de caballo, adelante, las vidas de Frodo, Gandalf, Arwen, Aragorn
-				Huargo.movimiento_Caballo = false;
-				Huargo.movimiento_Adelante = true;
+				Board_Horses.setTurno(Board_Horses.getTurno()*-1);
 
 
 			} catch (LineUnavailableException e) {
@@ -270,8 +258,8 @@ public abstract class Pieza {
 			}
 		}
 		else{
-			//JuegoPrincipal.a_h_turno.setText("Finalizado");
-			Tablero.setTurno(0);
+			JuegoPrincipal.a_h_turno.setText("Finalizado");
+			Board_Horses.setTurno(0);
 		}
 
 

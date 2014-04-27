@@ -2,7 +2,7 @@ package Piezas;
 
 import Juego.Pieza;
 import Juego.CuadroPieza;
-import Juego.Tablero;
+import Juego.Board_Horses;
 import javax.swing.ImageIcon;
 
 /*Esta es la clase Aragorn de la cual pertenece al tablero,
@@ -24,7 +24,7 @@ import javax.swing.ImageIcon;
  *   o lateral en caso de un segundo encuentro
  *  
  * */
-public class Aragorn extends Pieza {
+public class Caballo_2 extends Pieza {
 
 	int raza = 6;// Numero de identificador de ficha
 	public static String vidas = "1";// Cantidad de vidas de la ficha
@@ -41,11 +41,11 @@ public class Aragorn extends Pieza {
 	 * 
 	 * */
 	
-	public Aragorn(int color) {
+	public Caballo_2(int color) {
 		// Llama a la superclase pieza que identifica y este es de la horda
 		// o de la alianza
 		super(color);
-		setImagenPieza(new ImageIcon("src/Imagenes/Aa.gif"));
+		setImagenPieza(new ImageIcon("src/Imagenes/Horse_2.gif"));
 		// Establece la pieza en el tablero
 	}
 	/*
@@ -69,7 +69,7 @@ public class Aragorn extends Pieza {
 	 * 4. Aragorn debe comer un solo jugador del bando contrario
 	 * */
 	
-	public boolean validarMovimiento(CuadroPieza Destino, Tablero tbl) {
+	public boolean validarMovimiento(CuadroPieza Destino, Board_Horses tbl) {
 		//Si la cantidad de cuadros movidos horizontalmente es la misma que verticalmente.
 		if (movimiento_Diagonal){
 			if (((Destino.getInY() - getCuadroPieza().getInY()== -2) && (Destino.getInX() - getCuadroPieza().getInX()== -2))   || ((Destino.getInY() - getCuadroPieza().getInY()== 2) && (Destino.getInX() - getCuadroPieza().getInX()== 2))   || ((Destino.getInY() - getCuadroPieza().getInY()== 2) && (Destino.getInX() - getCuadroPieza().getInX()== -2))  || ((Destino.getInY() - getCuadroPieza().getInY()== -2) && (Destino.getInX() - getCuadroPieza().getInX()== 2))  ) {

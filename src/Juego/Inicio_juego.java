@@ -154,11 +154,11 @@ public class Inicio_juego extends JFrame implements ActionListener {
 	 * 
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==boton_inciar || dimension1.isSelected()){
+		if(e.getSource()==boton_inciar && dimension1.isSelected()){
 
 
 			try {this.dispose();
-			Tablero.parametro = 8;
+			Board_Horses.parametro = 8;
 			new JuegoPrincipal();
 
 
@@ -171,10 +171,10 @@ public class Inicio_juego extends JFrame implements ActionListener {
 			} 
 
 		}
-		else if(e.getSource()==boton_inciar || dimension2.isSelected()){ 
+		else if(e.getSource()==boton_inciar && dimension2.isSelected()){ 
 			try {
 				this.dispose();
-				Tablero.parametro = 12;
+				Board_Horses.parametro = 12;
 				new JuegoPrincipal();
 			} catch (LineUnavailableException e1) {
 				e1.printStackTrace();
@@ -185,10 +185,10 @@ public class Inicio_juego extends JFrame implements ActionListener {
 			} 
 		}
 
-		else if(e.getSource()==boton_inciar || dimension3.isSelected()){ 
+		else if(e.getSource()==boton_inciar && dimension3.isSelected()){ 
 			try {
 				this.dispose();
-				Tablero.parametro = 16;
+				Board_Horses.parametro = 16;
 				new JuegoPrincipal();
 
 			} catch (LineUnavailableException e1) {

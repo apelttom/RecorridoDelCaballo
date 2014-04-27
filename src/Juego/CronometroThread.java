@@ -36,10 +36,10 @@ public class CronometroThread implements Runnable {
                segundos++;
                actualizarThread();
                if ((getSegundos() == tiempo_a_resucitar) && debe_resucitar){
-            	   Tablero.ubica_Gandalf();
+            	   //Tablero.ubica_Gandalf();
                }
                if(getSegundos() % 600 == 0 && getSegundos() != 0){
-            	   Tablero.ocurreTerremoto();
+            	   Board_Horses.ocurreTerremoto();
                }
            }
        } catch (InterruptedException e) {}

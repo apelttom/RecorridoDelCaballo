@@ -4,7 +4,7 @@ package Juego;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
-import Juego.Tablero;
+import Juego.Board_Horses;
 
 
 public class CronometroThreadAlianza implements Runnable {
@@ -41,21 +41,21 @@ public void run() {
 			actualizarThread();
 			//Mediante el uso de bloques de decisión limitamos el tiempo de cada jugador a 30 por turno y seteamos si pierde o no el turno a este límite de tiempo.
 			if (getSegundos()==30){
-				if (Tablero.getTurno() == -1)
+				if (Board_Horses.getTurno() == -1)
 				{
-					JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "Mordor pierde su turno");
+					JOptionPane.showMessageDialog(JuegoPrincipal.table, "Mordor pierde su turno");
 					//JuegoPrincipal.a_h_turno.setText("Comunidad");
 					segundos = 0;
-					Tablero.cambiaTurno();
-					Tablero.rePintarTablero();      
+					Board_Horses.cambiaTurno();
+					Board_Horses.rePintarTablero();      
 
 				}
-				else if (Tablero.getTurno() == 1){
-					JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "La comunidad pierde su turno");
+				else if (Board_Horses.getTurno() == 1){
+					JOptionPane.showMessageDialog(JuegoPrincipal.table, "La comunidad pierde su turno");
 					//JuegoPrincipal.a_h_turno.setText("Mordor");
 					segundos = 0;
-					Tablero.cambiaTurno();
-					Tablero.rePintarTablero();   
+					Board_Horses.cambiaTurno();
+					Board_Horses.rePintarTablero();   
 				}
 			}
 		}
