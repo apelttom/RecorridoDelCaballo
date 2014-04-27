@@ -44,7 +44,7 @@ public void run() {
 				if (Tablero.getTurno() == -1)
 				{
 					JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "Mordor pierde su turno");
-					JuegoPrincipal.a_h_turno.setText("Comunidad");
+					//JuegoPrincipal.a_h_turno.setText("Comunidad");
 					segundos = 0;
 					Tablero.cambiaTurno();
 					Tablero.rePintarTablero();      
@@ -52,7 +52,7 @@ public void run() {
 				}
 				else if (Tablero.getTurno() == 1){
 					JOptionPane.showMessageDialog(JuegoPrincipal.tablero1, "La comunidad pierde su turno");
-					JuegoPrincipal.a_h_turno.setText("Mordor");
+					//JuegoPrincipal.a_h_turno.setText("Mordor");
 					segundos = 0;
 					Tablero.cambiaTurno();
 					Tablero.rePintarTablero();   
