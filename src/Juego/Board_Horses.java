@@ -22,7 +22,9 @@ import javax.swing.JPanel;
 /**
  * Esta clase es la principal del Tablero, extiende de JPanel
  * */
+
 public class Board_Horses extends JPanel {
+
 	/*
 	 * Se crea un entero global con el cual se trabajará la parametrización el tablero.
 	 */
@@ -95,6 +97,11 @@ public class Board_Horses extends JPanel {
 	public static int posicion_Nigromante;
 	public static int posicion_Espada;
 	public static int posicion_Anillo;
+	
+    public static  int numFilas;
+    public static  int numColumnas;
+    public static int[][] tablero;
+    public static int     contador;
 
 	/*
 	 * Constructor de Tablero, en el se inicializa, se llena con las fichas y se pinta el tablero de juego.
@@ -275,14 +282,11 @@ public class Board_Horses extends JPanel {
 						board_horses[x][y].opacarPieza();//Regreso todos los cuadros a su estado inicial, para que no esten resaltados.
 					}
 				}
-				if (getTurno() == -1){
-					JuegoPrincipal.a_h_turno.setText("Comunidad");
-
-					CronometroThreadAlianza.segundos = -1;
+				if (getTurno() == -1){					
+					//CronometroThreadAlianza.segundos = -1;
 				}
-				else{
-					JuegoPrincipal.a_h_turno.setText("Mordor");
-					CronometroThreadAlianza.segundos = -1;
+				else{					
+					//CronometroThreadAlianza.segundos = -1;
 				}
 
 				setTurno(getTurno() * -1);//Cambio de turno al hacer una jugada válida.
@@ -292,7 +296,70 @@ public class Board_Horses extends JPanel {
 		}
 	}
 
-
+/////
+    public boolean resolverProblema(int f, int c, int num) {    	
+        contador++;
+        tablero[f][c] = num;
+        if(num==numFilas*numColumnas) return true;
+        int[][] posibles = buscarPosibles(f, c);
+        ordenarPosibles(posibles);              // llamado a la nueva función
+        for(int i=0; i<posibles.length; i++) {
+            if(resolverProblema(posibles[i][0], posibles[i][1], num+1)) 
+            {
+            	return true;
+            }
+            else{
+            	return false;
+            }
+        }
+        tablero[f][c]=0;
+        return false;
+}
+    
+    
+    
+    
+    // nuevo método: ordena el arreglo de posibles casillas a saltar
+    void ordenarPosibles(int[][] posibles) {
+        for(int i=0; i<posibles.length; i++) {
+            for(int j=i+1; j<posibles.length; j++) {
+                int cuantosPosiblesI = buscarPosibles(posibles[i][0], posibles[i][1]).length;
+                int cuantosPosiblesJ = buscarPosibles(posibles[j][0], posibles[j][1]).length;
+                if(cuantosPosiblesJ<cuantosPosiblesI) {
+                    int tmp0 = posibles[i][0];
+                    posibles[i][0] = posibles[j][0];
+                    posibles[j][0] = tmp0;
+                    int tmp1 = posibles[i][1];
+                    posibles[i][1] = posibles[j][1];
+                    posibles[j][1] = tmp1;
+                }
+            }
+        }
+    }
+ 
+    int[][] buscarPosibles(int f, int c) {
+        int[][] resp = new int[8][2];
+        int     pos  = 0;
+        if(esValido(f-2,c-1)){ resp[pos][0]=f-2; resp[pos++][1]=c-1; }
+        if(esValido(f-2,c+1)){ resp[pos][0]=f-2; resp[pos++][1]=c+1; }
+        if(esValido(f-1,c-2)){ resp[pos][0]=f-1; resp[pos++][1]=c-2; }
+        if(esValido(f-1,c+2)){ resp[pos][0]=f-1; resp[pos++][1]=c+2; }
+        if(esValido(f+2,c-1)){ resp[pos][0]=f+2; resp[pos++][1]=c-1; }
+        if(esValido(f+2,c+1)){ resp[pos][0]=f+2; resp[pos++][1]=c+1; }
+        if(esValido(f+1,c-2)){ resp[pos][0]=f+1; resp[pos++][1]=c-2; }
+        if(esValido(f+1,c+2)){ resp[pos][0]=f+1; resp[pos++][1]=c+2; }
+        int[][] tmp = new int[pos][2];
+        for(int i=0; i<pos; i++) { tmp[i][0] = resp[i][0]; tmp[i][1]=resp[i][1]; }
+        return tmp;
+    }  
+    
+    
+    boolean esValido(int f, int c) {
+        if(f<0 || f>numFilas-1 || c<0 || c>numColumnas-1) return false;
+        if(tablero[f][c]!=0) return false;
+        return true;
+    }
+/////
 	/**
 	 * Este método ordena todo el tablero, quiere decir que pone las piezas en su sitio.(Resetea el juego).
 	 */
@@ -494,7 +561,7 @@ public class Board_Horses extends JPanel {
 	 public static void ocurreTerremoto(){
 		 Posiciones_Aleatorias ocurre = new Posiciones_Aleatorias(0,1); // Genera aleatorios con un 50% de probabilidad de que haya un terremoto.
 		 if(ocurre.generar_numero_aleatorio() == 1){
-			 JOptionPane.showMessageDialog(JuegoPrincipal.table, "Al parecer Minas Tirith esta sufriendo un terremoto");	 // Informe de terremoto.
+			// JOptionPane.showMessageDialog(JuegoPrincipal.table, "Al parecer Minas Tirith esta sufriendo un terremoto");	 // Informe de terremoto.
 			 Terremoto(0); //Ejecuto el terremoto.
 		 }
 	 }

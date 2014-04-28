@@ -233,18 +233,19 @@ public abstract class Pieza {
 	 */
 	public static void reiniciar(){
 		Cronometro.stopActionPerformed();
-		CronometroAlianza.stopActionPerformed();
+		Cronometro.stopActionPerformed();		
+		//CronometroAlianza.stopActionPerformed();
 		int Eleccion =JOptionPane.showConfirmDialog(JuegoPrincipal.table, "¿Desea volver a iniciar la partida?", "Confirmacion", JOptionPane.YES_NO_OPTION);
 		if (Eleccion == 0){
 			JuegoPrincipal.frame.dispose();
-			JuegoPrincipal.table=new Juego.Board_Horses(); 
-			JuegoPrincipal.a_h_turno.setText("Comunidad");
+			JuegoPrincipal.table=new Juego.Board_Horses(); 			
 			Board_Horses.setTurno(Board_Horses.getTurno()*-1);
 
 			try {
 				//Inicializacion de cronómetro
 				Cronometro.stopActionPerformed();
-				CronometroAlianza.stopActionPerformed();
+				Cronometro.stopActionPerformed();
+				//CronometroAlianza.stopActionPerformed();
 				JuegoPrincipal.initialize();//Inicializa contodas las varaibles del juego principal
 				Board_Horses.setTurno(Board_Horses.getTurno()*-1);
 
@@ -257,8 +258,7 @@ public abstract class Pieza {
 				e.printStackTrace();
 			}
 		}
-		else{
-			JuegoPrincipal.a_h_turno.setText("Finalizado");
+		else{			
 			Board_Horses.setTurno(0);
 		}
 

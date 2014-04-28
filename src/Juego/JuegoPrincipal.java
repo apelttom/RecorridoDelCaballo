@@ -48,19 +48,8 @@ public class JuegoPrincipal {
 	public static JFrame frame;
 	public static Juego.Board_Horses table; //Variable para el tablero
 	public static Cronometro relojCaballo_1; //Var9iable para el Cronómetro del juego
-	public static Cronometro relojCaballo_2; //Var9iable para el Cronómetro del juego
-	public static CronometroAlianza relojAlianza; //Variable para el cronómetro de la alianza
-	/**
-	 * Estas delcaraciones de varibales de JTextField, contienen la información de vidas, poderes y demás información de dichas piezas (cuyo nombre se encuentra en cada variable) del juego.
-	 */
-	public static JTextField v_Aragorn;
-	public static JTextField v_Arwen;
-	public static JTextField v_Gandalf;
-	public static JTextField v_Eldarion;
-	public static JTextField v_Frodo;
-	public static JTextField a_h_turno;
-	public static JTextField v_Saruman;
-	public static JTextField v_Gollum;
+	public static Cronometro relojCaballo_2; //Var9iable para el Cronómetro del juego	
+	
 	public static boolean salir; // Declaración  de la variable booleana para permitir salir del juego.
 	/**
 	 * Corresponde a las declaraciones de la barra de menú que contiene la opsción de Iniciar Nueva Partida y Salir del juego.
@@ -124,7 +113,7 @@ public class JuegoPrincipal {
 		frame.getContentPane().add(table);
 
 		/**
-		 * Se inicializ el cronómetro del juego y el cronómetro de la alianza, con su visibilidad activada, sus parámetros y tamaño indicado respectivamente.
+		 * Se inicializa el cronómetro del juego y el cronómetro de la alianza, con su visibilidad activada, sus parámetros y tamaño indicado respectivamente.
 		 */
 		relojCaballo_1 = new Cronometro();
 		relojCaballo_1.setVisible(true);
@@ -146,15 +135,13 @@ public class JuegoPrincipal {
 		 */
 		JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
 		JMenu jMenu1 = new javax.swing.JMenu();
-		JMenuItem MenuItemIniciarPartida = new javax.swing.JMenuItem();
-		JMenuItem jMenuItem1 = new javax.swing.JMenuItem();
 		JMenuItem MenuItemSalir = new javax.swing.JMenuItem();
 
 
 		table.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
 		/**
-		 * Creación del item del nombre archivo en el cual se generá o almacena la lista de las opsciones de Iniciar Nueva Partida y Salir.
+		 * Creación del item del nombre archivo en el cual se genera o almacena la lista de las opsciones de Iniciar Nueva Partida y Salir.
 		 */
 		jMenu1.setText("Archivo");
 		frame.setJMenuBar(jMenuBar1);
@@ -165,30 +152,6 @@ public class JuegoPrincipal {
 		final Clip sonido = AudioSystem.getClip();
 		sonido.open(AudioSystem.getAudioInputStream(new File("src/Imagenes/Sample.wav")));
 		sonido.loop(20);
-
-		/**
-		 * Creación y asignación de la funcionalidad del menú Iniciar Partida Nueva.
-		 */
-		MenuItemIniciarPartida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-		MenuItemIniciarPartida.setText("Iniciar Nueva Partida");
-		MenuItemIniciarPartida.addActionListener(new java.awt.event.ActionListener() {
-
-			/**
-			 * Las acciones que realiza dicho menú son:
-			 *  1: Generar una nueva partida
-			 *  2: Inicializar todas las variables del juego para la nueva partida
-			 *  3: Cerrar el sonido de la partida anterior, para generar de cero el sonido con la nueva partida.
-			 */
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				sonido.close();	
-				Pieza.reiniciar();
-				Board_Horses.setTurno(Board_Horses.getTurno()*-1);
-			}
-		});
-		jMenu1.add(MenuItemIniciarPartida);
-
-
-		jMenu1.add(jMenuItem1);
 
 		/**
 		 * Creación y asignación de la funcionalidad del menú Salir.
@@ -206,124 +169,37 @@ public class JuegoPrincipal {
 		});
 		jMenu1.add(MenuItemSalir);
 		jMenuBar1.add(jMenu1);
+		
+		JMenu mnOpciones = new JMenu("Opciones");
+		jMenuBar1.add(mnOpciones);
+		JMenuItem MenuItemNuevo_Juego = new javax.swing.JMenuItem();
+		mnOpciones.add(MenuItemNuevo_Juego);
+		MenuItemNuevo_Juego.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+		MenuItemNuevo_Juego.setText("Nuevo Juego");
+		
+		JMenuItem mntmCorrerRecorrido = new JMenuItem("Correr Recorrido");
+		mnOpciones.add(mntmCorrerRecorrido);
+		
+		
+		
+		MenuItemNuevo_Juego.addActionListener(new java.awt.event.ActionListener() {
 
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de las vidas en este caso 1.
-		 */
-		v_Aragorn = new JTextField();
-		v_Aragorn.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Aragorn.setBounds(80*Board_Horses.parametro+150, 362, 73, 30);
-		frame.getContentPane().add(v_Aragorn);
-		v_Aragorn.setColumns(10);
-
-		v_Aragorn.setText(Caballo_1.vidas);
-
-		/**
-		 * Control mediante pantalla cual turno se está jugando actualmente
-		 */
-		JLabel lblturno = new JLabel("Turno Actual");
-		lblturno.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblturno.setBounds(80*Board_Horses.parametro+35, 250, 121, 30);
-		frame.getContentPane().add(lblturno);
-
-		a_h_turno= new JTextField();
-		a_h_turno.setEditable(false);// No se permite que la caja de texto sea editable
-		a_h_turno.setColumns(10);
-		a_h_turno.setBounds(80*Board_Horses.parametro+150, 250, 121, 30);
-		a_h_turno.setText("Comunidad"); //Muestra el turno que inicia jugando
-		frame.getContentPane().add(a_h_turno);
-
-		JLabel lblVidas = new JLabel("Vidas");
-		lblVidas.setFont(new Font("Times New Roman", Font.PLAIN, 25));
-		lblVidas.setBounds(80*Board_Horses.parametro+100, 304, 121, 30);
-		frame.getContentPane().add(lblVidas);
-
-		JLabel lblAragorn = new JLabel("Aragorn");
-		lblAragorn.setBounds(80*Board_Horses.parametro+50, 370, 46, 14);
-		frame.getContentPane().add(lblAragorn);
-
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de la Inmortalidad 
-		 */
-		JLabel lblArwen = new JLabel("Arwen");
-		lblArwen.setBounds(80*Board_Horses.parametro+50, 414, 46, 14);
-		frame.getContentPane().add(lblArwen);
-
-		v_Arwen = new JTextField();
-		v_Arwen.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Arwen.setColumns(10);
-		v_Arwen.setBounds(80*Board_Horses.parametro+150, 403, 73, 30);
-		frame.getContentPane().add(v_Arwen);
+			/**
+			 * Las acciones que realiza dicho menú son:
+			 *  1: Generar una nueva partida
+			 *  2: Inicializar todas las variables del juego para la nueva partida
+			 *  3: Cerrar el sonido de la partida anterior, para generar de cero el sonido con la nueva partida.
+			 */
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				sonido.close();	
+				Pieza.reiniciar();
+				Board_Horses.setTurno(Board_Horses.getTurno()*-1);
+			}
+		});
 
 
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de las vidas que en este personaje son 2
-		 */
-		JLabel lblGandalf = new JLabel("Gandalf\r\n");
-		lblGandalf.setBounds(80*Board_Horses.parametro+50, 452, 46, 14);
-		frame.getContentPane().add(lblGandalf);
-
-		v_Gandalf = new JTextField();
-		v_Gandalf.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Gandalf.setColumns(10);
-		v_Gandalf.setBounds(80*Board_Horses.parametro+150, 444, 73, 30);
-		frame.getContentPane().add(v_Gandalf);
 
 
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información del momento en que es creado o si todavia no a sido creado, una vez creado ya no peude ser creado mas.
-		 */
-		JLabel lblEldarion = new JLabel("Eldarion");
-		lblEldarion.setBounds(80*Board_Horses.parametro+50, 534, 46, 14);
-		frame.getContentPane().add(lblEldarion);        
-
-		v_Eldarion = new JTextField();
-		v_Eldarion.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Eldarion.setColumns(10);
-		v_Eldarion.setBounds(80*Board_Horses.parametro+150, 526, 73, 30);
-		v_Eldarion.setText("No creado"); //Muestra que Eldarión no ha sido creado, esto en el inicio del juego.
-		frame.getContentPane().add(v_Eldarion);
-
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de las vidas en este personaje serán tres
-		 */
-		JLabel lblFrodo = new JLabel("Frodo");
-		lblFrodo.setBounds(80*Board_Horses.parametro+50, 493, 46, 14);
-		frame.getContentPane().add(lblFrodo);
-
-		v_Frodo = new JTextField();
-		v_Frodo.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Frodo.setColumns(10);
-		v_Frodo.setBounds(80*Board_Horses.parametro+150, 485, 73, 30);
-		frame.getContentPane().add(v_Frodo);
-
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de las vidas en este personaje será una
-		 */
-		JLabel lblSaruman = new JLabel("Saruman");
-		lblSaruman.setBounds(80*Board_Horses.parametro+50, 574, 60, 14);
-		frame.getContentPane().add(lblSaruman);
-
-		v_Saruman = new JTextField();
-		v_Saruman.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Saruman.setColumns(10);
-		v_Saruman.setBounds(80*Board_Horses.parametro+150, 567, 73, 30);
-		v_Saruman.setText("1"); // El valor de la vidas a mostrar
-		frame.getContentPane().add(v_Saruman);
-
-		/**
-		 * Asignación a las cajitas de texto del personaje con la información de las vidas en este personaje será una
-		 */ 
-		JLabel lblGollums = new JLabel("Gollum");
-		lblGollums.setBounds(80*Board_Horses.parametro+50, 616, 150, 14);
-		frame.getContentPane().add(lblGollums);
-
-		v_Gollum = new JTextField();
-		v_Gollum.setEditable(false);// No se permite que la caja de texto sea editable
-		v_Gollum.setColumns(10);
-		v_Gollum.setBounds(80*Board_Horses.parametro+150, 608, 73, 30);
-		v_Gollum.setText("1"); // El valor de la vidas a mostrar
-		frame.getContentPane().add(v_Gollum);
 
 
 
