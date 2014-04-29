@@ -44,15 +44,15 @@ public class CronometroThread implements Runnable {
 
                actualizarThread();
                if(m<(Board_Horses.parametro*Board_Horses.parametro)){
-            	   System.out.println(ProblemaCaballo.filas.size());
-	               if(j<(ProblemaCaballo.filas.size())){            	   
+            	   System.out.println(BackTrackingCaballos.filas.size());
+	               if(j<(BackTrackingCaballos.filas.size())){            	   
 	            	   //Board_Horses.board_horses[(int) ProblemaCaballo.filas.get(m)][(int) ProblemaCaballo.columnas.get(m)].setPieza(new Caballo_1(0));
 	            	   //Board_Horses.board_horses[(int) ProblemaCaballo.filas.get(m)][(int) ProblemaCaballo.columnas.get(m)].setPieza(new Caballo_2(0));
 	            	   m++;
 	            	   j++;
 	               }
 	               else{
-	            	   if(i<(ProblemaCaballo.filas.size())){
+	            	   if(i<(BackTrackingCaballos.filas.size())){
 	            		   j=0;
 	            		   i++;
 	            				   

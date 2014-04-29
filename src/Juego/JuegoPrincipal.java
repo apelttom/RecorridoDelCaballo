@@ -1,13 +1,5 @@
 package Juego;
 
-/**
- * Autor:Daniel Chaves Coto y Oswaldo Dávila Padrón
- * 01 hasta el 11 /04/2013
- */
-
-/**
- * Son importadas todas las librerias necesarias para el desarrollo de la clase JuegoPrincipal.
- */
 import java.awt.EventQueue;
 import java.io.*;
 
@@ -49,8 +41,8 @@ public class JuegoPrincipal {
 	 */
 	public static JFrame frame;
 	public static Juego.Board_Horses table; //Variable para el tablero
-	public static Cronometro relojCaballo_1; //Var9iable para el Cronómetro del juego
-	public static Cronometro relojCaballo_2; //Var9iable para el Cronómetro del juego	
+	public static Cronometro relojCaballo_1; //Variable para el Cronómetro del juego
+	public static Cronometro relojCaballo_2; //Variable para el Cronómetro del juego	
 	
 	public static boolean salir; // Declaración  de la variable booleana para permitir salir del juego.
 	/**
@@ -182,10 +174,10 @@ public class JuegoPrincipal {
 		JMenuItem mntmCorrerRecorrido = new JMenuItem("Correr");
 		mntmCorrerRecorrido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				 ProblemaCaballo pc = new ProblemaCaballo(Board_Horses.parametro,Board_Horses.parametro);//paso de parámetros con las dimensiones del tablero	
-				 pc.resolverProblema(Board_Horses.Fila_Caballo_1,Board_Horses.Columna_Caballo_1,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero 
-				 pc.resolverProblema(Board_Horses.Fila_Caballo_2,Board_Horses.Columna_Caballo_2,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero
-			     pc.mostrarTablero();// se muestra el recorrido				 
+				 BackTrackingCaballos BTHorses = new BackTrackingCaballos(Board_Horses.parametro,Board_Horses.parametro);//paso de parámetros con las dimensiones del tablero	
+				 BTHorses.CicloSolucion(Board_Horses.Fila_Caballo_1,Board_Horses.Columna_Caballo_1,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero 
+				 BTHorses.CicloSolucion(Board_Horses.Fila_Caballo_2,Board_Horses.Columna_Caballo_2,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero
+				 BTHorses.mostrarSolucion();// se muestra el recorrido				 
 			}
 		});
 		mnOpciones.add(mntmCorrerRecorrido);
