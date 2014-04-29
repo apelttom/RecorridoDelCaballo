@@ -1,12 +1,13 @@
 
-//Se realizan los import necesarios de piezas y otras librerias, así como el package a juego.
+
 package Juego;
-//@autores Daniel Chaves Coto, Deiby Diaz y Oswaldo Dávila.
-// Se iniciaron comentarios de drag and drop el 25/4/2013.
-// Se inició con al día siguiente con recopilación y retroalimentación para llevar a cabo el proyecto.
+
 
 import Piezas.Caballo_1;
 import Piezas.Caballo_2;
+
+
+
 
 
 import java.awt.Color;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 
 public class Board_Horses extends JPanel {
 
+	public static int Fila_Caballo_1 = 0, Fila_Caballo_2 = 0, Columna_Caballo_1 = 0, Columna_Caballo_2 = 0;
 	/*
 	 * Se crea un entero global con el cual se trabajará la parametrización el tablero.
 	 */
@@ -98,10 +100,6 @@ public class Board_Horses extends JPanel {
 	public static int posicion_Espada;
 	public static int posicion_Anillo;
 	
-    public static  int numFilas;
-    public static  int numColumnas;
-    public static int[][] tablero;
-    public static int     contador;
 
 	/*
 	 * Constructor de Tablero, en el se inicializa, se llena con las fichas y se pinta el tablero de juego.
@@ -112,12 +110,12 @@ public class Board_Horses extends JPanel {
 		ordenarTablero();
 		init();// para darle eventos mouse
 	}
+	
+	
 	/**
 	 * Este metodo crea el tablero, quiere decir que grafica el tablero en el Jpanel.
 	 */
-	//@autor Daniel Chaves Coto.
-	// 27/3/2013.
-	// Modificaciones el 4/4/13
+
 	private void llenarCuadrosTablero() {
 		tmp = new JLabel();
 		tmp.setForeground(new Color(0, 0, 0));
@@ -136,9 +134,7 @@ public class Board_Horses extends JPanel {
 	/**
 	 * Inicializo todos los listener de cada pieza.
 	 */
-	//@autor Daniel Chaves Coto.
-	// 26/3/2013.
-	// Modificaciones el 6/4/13
+
 	public void init() {//lo que es evento con el Mouse
 		for (int x = 0; x < parametro; x++) {
 			for (int y = 0; y < parametro; y++) {
@@ -171,9 +167,6 @@ public class Board_Horses extends JPanel {
 	 * @param evt
 	 * 
 	 */
-	//@autor Daniel Chaves Coto.
-	// 27/3/2013.
-	// Modificaciones el 4/4/13
 	public void seleccionarPieza(java.awt.event.MouseEvent evt) {
 		// Se pasa como parametro el evento del mouse.
 		CuadroPieza t = ((CuadroPieza) evt.getComponent());//Averiguo en que cuadro sucedió el evento.
@@ -215,9 +208,6 @@ public class Board_Horses extends JPanel {
 	/*
 	 * Es el método que permite soltar una pieza en determinado lugar.
 	 */
-	//@autor Daniel Chaves Coto.
-	// 29/3/2013.
-	// Modificaciones el 4/4/13
 	public void dejarPieza(java.awt.event.MouseEvent evt) {
 		if (cuadroSeleccionado.getPieza() != null) {//Si hay alguna pieza seleccionada
 			tmp.setLocation(-100, -100);//Pongo el label tmp, por donde no se vea para que no estorbe.
@@ -236,9 +226,6 @@ public class Board_Horses extends JPanel {
 	/*
 	 * Se usa para cambiar el turno si el jugador que le toca mover no ha hecho su jugada después de 30 segundos.
 	 */
-	//@autor Oswaldo Dávila.
-	// 10/4/2013.
-
 	public static void cambiaTurno(){
 		setTurno(getTurno()*-1);
 
@@ -246,9 +233,6 @@ public class Board_Horses extends JPanel {
 	/*
 	 * Retorna el estado del booleano procrear usado para el nacimiento de Eldarion.
 	 */
-	//@autor Daniel Chaves Coto.
-	// 8/4/2013.
-	// Modificaciones el 9/4/13
 	public static boolean cambiaProcear(){
 		return procrear;
 	}
@@ -265,9 +249,6 @@ public class Board_Horses extends JPanel {
 	 * Este metodo es el que mueve la pieza a un determinado lugar.
 	 */
 	public void MoverPieza(CuadroPieza cuadroActual, CuadroPieza cuadroDestino) {
-		//@autor Daniel Chaves Coto.
-		 // 27/3/2013.
-		 // Modificaciones el 5/4/13
 		/**
 		 * Precondiciones: Se Necesita mover una Pieza de un lugar a otro.
 		 * Entradas: El cuadro proveniente de la pieza y el cuadro al cuál se quiere mover.
@@ -296,76 +277,13 @@ public class Board_Horses extends JPanel {
 		}
 	}
 
-/////
-    public boolean resolverProblema(int f, int c, int num) {    	
-        contador++;
-        tablero[f][c] = num;
-        if(num==numFilas*numColumnas) return true;
-        int[][] posibles = buscarPosibles(f, c);
-        ordenarPosibles(posibles);              // llamado a la nueva función
-        for(int i=0; i<posibles.length; i++) {
-            if(resolverProblema(posibles[i][0], posibles[i][1], num+1)) 
-            {
-            	return true;
-            }
-            else{
-            	return false;
-            }
-        }
-        tablero[f][c]=0;
-        return false;
-}
-    
-    
-    
-    
-    // nuevo método: ordena el arreglo de posibles casillas a saltar
-    void ordenarPosibles(int[][] posibles) {
-        for(int i=0; i<posibles.length; i++) {
-            for(int j=i+1; j<posibles.length; j++) {
-                int cuantosPosiblesI = buscarPosibles(posibles[i][0], posibles[i][1]).length;
-                int cuantosPosiblesJ = buscarPosibles(posibles[j][0], posibles[j][1]).length;
-                if(cuantosPosiblesJ<cuantosPosiblesI) {
-                    int tmp0 = posibles[i][0];
-                    posibles[i][0] = posibles[j][0];
-                    posibles[j][0] = tmp0;
-                    int tmp1 = posibles[i][1];
-                    posibles[i][1] = posibles[j][1];
-                    posibles[j][1] = tmp1;
-                }
-            }
-        }
-    }
- 
-    int[][] buscarPosibles(int f, int c) {
-        int[][] resp = new int[8][2];
-        int     pos  = 0;
-        if(esValido(f-2,c-1)){ resp[pos][0]=f-2; resp[pos++][1]=c-1; }
-        if(esValido(f-2,c+1)){ resp[pos][0]=f-2; resp[pos++][1]=c+1; }
-        if(esValido(f-1,c-2)){ resp[pos][0]=f-1; resp[pos++][1]=c-2; }
-        if(esValido(f-1,c+2)){ resp[pos][0]=f-1; resp[pos++][1]=c+2; }
-        if(esValido(f+2,c-1)){ resp[pos][0]=f+2; resp[pos++][1]=c-1; }
-        if(esValido(f+2,c+1)){ resp[pos][0]=f+2; resp[pos++][1]=c+1; }
-        if(esValido(f+1,c-2)){ resp[pos][0]=f+1; resp[pos++][1]=c-2; }
-        if(esValido(f+1,c+2)){ resp[pos][0]=f+1; resp[pos++][1]=c+2; }
-        int[][] tmp = new int[pos][2];
-        for(int i=0; i<pos; i++) { tmp[i][0] = resp[i][0]; tmp[i][1]=resp[i][1]; }
-        return tmp;
-    }  
-    
-    
-    boolean esValido(int f, int c) {
-        if(f<0 || f>numFilas-1 || c<0 || c>numColumnas-1) return false;
-        if(tablero[f][c]!=0) return false;
-        return true;
-    }
-/////
+
 	/**
 	 * Este método ordena todo el tablero, quiere decir que pone las piezas en su sitio.(Resetea el juego).
 	 */
 	public void ordenarTablero() {    	
 		Posiciones_Aleatorias Pos_Caballos = new Posiciones_Aleatorias(0,(parametro-1)); // Se crea una instancia de números aleatorios para la inserción de los señuelos.
-		int Fila_Caballo_1 = 0, Fila_Caballo_2 = 0, Columna_Caballo_1 = 0, Columna_Caballo_2 = 0;
+		//int Fila_Caballo_1 = 0, Fila_Caballo_2 = 0, Columna_Caballo_1 = 0, Columna_Caballo_2 = 0;
 
 		setTurno(1); // Se empieza con el turno de Comunidad.
 
@@ -391,6 +309,7 @@ public class Board_Horses extends JPanel {
 			board_horses[Fila_Caballo_1][Columna_Caballo_1].setPieza(new Caballo_1(0));//asignación aleatoria del caballo 1 en el tablero
 			board_horses[Fila_Caballo_2][Columna_Caballo_2].setPieza(new Caballo_2(0));//asignación aleatoria del caballo 2 en el tablero
 		}
+		
 
 
 		rePintarTablero(); // Se llama al método repintar tablero que básicamente como su nombre lo indica reposiciona en el tablero las imagenes, su ícono.

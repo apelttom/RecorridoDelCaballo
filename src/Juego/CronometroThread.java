@@ -1,6 +1,9 @@
 //Se realiza el package a juego.
 package Juego;
 
+import Piezas.Caballo_1;
+import Piezas.Caballo_2;
+
 public class CronometroThread implements Runnable {
    private Thread hiloCronometro; // Se define el hilo correspondiente a hiloCronometro.
    private boolean go,live; // Se definen booleanos privados.
@@ -10,6 +13,10 @@ public class CronometroThread implements Runnable {
    public static int tiempo_a_resucitar;//Se define tiempo_a_resuciar como un entero global privado.
    public static boolean debe_resucitar = false;//Se define debe_resucitar como un booleano global privado.
    private Cronometro reloj; //Se define reloj como una instancia de la clase Cronometro.
+   public static int i=0;
+   public static int j=0;
+   public static int m=0;
+   
 
    /**
     * Este  es el constructor de la clase CronometroThread
@@ -34,13 +41,27 @@ public class CronometroThread implements Runnable {
                }
                Thread.sleep(1000);
                segundos++;
+
                actualizarThread();
-               if ((getSegundos() == tiempo_a_resucitar) && debe_resucitar){
-            	   //Tablero.ubica_Gandalf();
-               }
-               if(getSegundos() % 600 == 0 && getSegundos() != 0){
-            	   Board_Horses.ocurreTerremoto();
-               }
+               if(m<(Board_Horses.parametro*Board_Horses.parametro)){
+            	   System.out.println(ProblemaCaballo.filas.size());
+	               if(j<(ProblemaCaballo.filas.size())){            	   
+	            	   //Board_Horses.board_horses[(int) ProblemaCaballo.filas.get(m)][(int) ProblemaCaballo.columnas.get(m)].setPieza(new Caballo_1(0));
+	            	   //Board_Horses.board_horses[(int) ProblemaCaballo.filas.get(m)][(int) ProblemaCaballo.columnas.get(m)].setPieza(new Caballo_2(0));
+	            	   m++;
+	            	   j++;
+	               }
+	               else{
+	            	   if(i<(ProblemaCaballo.filas.size())){
+	            		   j=0;
+	            		   i++;
+	            				   
+	            	   }        	           		           	 
+	            	   
+	               } 
+           } 
+               
+                        
            }
        } catch (InterruptedException e) {}
    }
@@ -57,12 +78,15 @@ public class CronometroThread implements Runnable {
     * Este método actualiza el hilo del cronómetro.
     */
    private void actualizarThread() {
+	   	   
 	   // Si el cronómetro no se ha inicializado, se comienza con 0:0:0;
        if (isLive() == true) {
            int hr= segundos/3600;
            min =(segundos-hr*3600)/60;
            seg = segundos-hr*3600-min*60;
-           reloj.getDisplay().setText(""+hr+" : "+min+" : "+seg);
+           reloj.getDisplay().setText(""+hr+" : "+min+" : "+seg);    
+                     
+                      
        } else {
            segundos = 0;
            reloj.getDisplay().setText("0 : 0 : 0");
@@ -82,7 +106,7 @@ public class CronometroThread implements Runnable {
     */
    public synchronized void continuarThread() {
        setGo(true);
-       notify();
+       notify();      
    }
 
    //********** MÉTODOS SET Y GET DE LAS VARIABLES DE TIPO BOOLEAN e INT ************

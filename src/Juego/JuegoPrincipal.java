@@ -35,6 +35,8 @@ import Piezas.Caballo_2;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 /**
@@ -124,9 +126,9 @@ public class JuegoPrincipal {
 		relojCaballo_2.setVisible(true);
 		relojCaballo_2.setBounds(50*Board_Horses.parametro+50, 127, 220, 76);
 		
-		//Inician el reloj de ambos caballos a correr almismo tiempo
+		//Inician el reloj de ambos caballos a correr al mismo tiempo
 		frame.getContentPane().add(relojCaballo_1);
-		frame.getContentPane().add(relojCaballo_2);
+		//frame.getContentPane().add(relojCaballo_2);
 
 		table.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -177,7 +179,15 @@ public class JuegoPrincipal {
 		MenuItemNuevo_Juego.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
 		MenuItemNuevo_Juego.setText("Nuevo Juego");
 		
-		JMenuItem mntmCorrerRecorrido = new JMenuItem("Correr Recorrido");
+		JMenuItem mntmCorrerRecorrido = new JMenuItem("Correr");
+		mntmCorrerRecorrido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 ProblemaCaballo pc = new ProblemaCaballo(Board_Horses.parametro,Board_Horses.parametro);//paso de parámetros con las dimensiones del tablero	
+				 pc.resolverProblema(Board_Horses.Fila_Caballo_1,Board_Horses.Columna_Caballo_1,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero 
+				 pc.resolverProblema(Board_Horses.Fila_Caballo_2,Board_Horses.Columna_Caballo_2,1);//paso de parámetros con las posiciones donde incia el caballo en el tablero
+			     pc.mostrarTablero();// se muestra el recorrido				 
+			}
+		});
 		mnOpciones.add(mntmCorrerRecorrido);
 		
 		
@@ -193,7 +203,7 @@ public class JuegoPrincipal {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				sonido.close();	
 				Pieza.reiniciar();
-				Board_Horses.setTurno(Board_Horses.getTurno()*-1);
+				Board_Horses.setTurno(Board_Horses.getTurno()*-1);							
 			}
 		});
 

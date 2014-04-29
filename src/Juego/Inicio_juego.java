@@ -25,7 +25,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 
 /**
- * Esta es la Clase Inicio_juego, que ha sido declarada de tipo pública.
+ * Esta es la clase principal con la cual iniciamos el recorrido de los caballos
  */
 public class Inicio_juego extends JFrame implements ActionListener {
 
@@ -34,7 +34,7 @@ public class Inicio_juego extends JFrame implements ActionListener {
 	private JLabel etqImagen; //Declaración de la etiqueta que contiene la imagen de fondo utilizada en la pantalla de inicio del juego.
 
 	/**
-	 * rb1, rb2, rb3, rb4, rb5 Son las declaraciones de los botones que se utilizan en dicha pantalla del inicio del juego, para permitirle al usuario que escoga la dimensión que desee utilizar para jugar en el tablero.
+	 * Estas son las declaraciones de los botones que se utilizan en dicha pantalla del inicio del juego, para permitirle al usuario que escoga la dimensión que desee utilizar para jugar en el tablero.
 	 */
 	private JRadioButton dimension1;//contiene la dimensión 8x8
 	private JRadioButton dimension2;//contiene la dimensión 12x12
@@ -48,6 +48,7 @@ public class Inicio_juego extends JFrame implements ActionListener {
 	 */
 	public Inicio_juego() {
 		super("Iniciando Juego");
+		setTitle("Recorridos del Caballo");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Esto permite activar el botón de la "X" que se encuentra en la pantalla, con el fin de permitir el cierre de la misma cuando sea pulsado mediante un click
 		setBounds(0, 0, 464, 419); //Define el tamaño de la ventana principal del juego.
@@ -159,7 +160,7 @@ public class Inicio_juego extends JFrame implements ActionListener {
 
 			try {this.dispose();
 			Board_Horses.parametro = 8;
-			new JuegoPrincipal();
+			new JuegoPrincipal();			 
 
 
 			} catch (LineUnavailableException e1) {
